@@ -1,0 +1,10 @@
+#!/bin/sh
+
+T=$(basename $(dirname $(readlink -f $0)))
+TAG="sumpfgottheitlocal/$T"
+
+docker build -t $TAG .
+
+echo 
+echo "Image built: $TAG"
+echo
