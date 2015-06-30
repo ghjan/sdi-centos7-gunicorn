@@ -6,28 +6,12 @@ No virtualenvs are used, as the service the gunicorn application is the sole pur
 
 # How to use this image
 
-* Create a `gunicorn.ini` within the `/docker-entrypoint.ext.d` directory with your gunicorn configuration
-* Create a `gunicorn.app` within the `/docker-entrypoint.ext.d` directory which contains the `APP_MODULE` that should be started
+* Create a `$projectdir/volumes/docker-entrypoint-ext.d/gunicorn.ini` for your app.
+* Create a `$projectdir/volumes/docker-entrypoint-ext.d/gunicorn.app` which contains the `APP_MODULE`, eg `app:app`. 
+* Define an Environmentvariable `PIP_REQUIREMENTS_FILE` which points to your requirements-file
+* Place your app within a volume - use `/pub` if you don't have a better idea.
 
-Here is an example of a `/docker-entrypoint.ext.d/gunicorn.ini` that expects the application with in `/pub` directory.
-
-```
-import multiprocessing
-
-bind = "0.0.0.0:5000"
-workers = multiprocessing.cpu_count() * 2 + 1
-threads = multiprocessing.cpu_count() * 2 + 1
-max_requests = 4096
-timeout = 120
-chdir = "/pub"
-pythonpath = "/pub"
-```
-
-To start the application `app` within the `app.py` file in the `/pub` directory, create the file `/docker-entrypoint.ext.d/gunicorn.app` with this content:
-
-```
-app.app
-```
+Look at the **example** section for how to do it.
 
 The `/pub` directory is created by the image, you can mount it as volume, store your application there and get on with it.
 
@@ -37,7 +21,7 @@ Gunicorn allows to define a logging configuration via config file. The image con
 
 The 'root' logger also logs to /logs/root_logger.log. This configuration file is copied into /docker-entrypoint-ext.d on first startup so it can be changed later on.
 
-The logging-configuration is injected into the `gunicorn.ini` automatically.
+The logging-configuration is injected into the `gunicorn.ini` automatically. If you combine this image with my **sumpfgotthei/centos7-elk** Stack, you will get logging into elasticsearch/kibana **for free**.
 
 # Example
 
@@ -57,8 +41,8 @@ elk:
     - elk/volumes/elastichsearchdata:/var/elasticsearch
     - elk/volumes/logstash.d:/etc/logstash.d
 gunicorn:
-  env:
-  	PIP_REQUIREMENTS_FILE=/pub/requirement.txt
+  environment:
+  	- PIP_REQUIREMENTS_FILE=/pub/requirements.txt
   expose:
     - 5000
   ports:

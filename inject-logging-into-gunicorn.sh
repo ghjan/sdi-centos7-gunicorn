@@ -7,7 +7,7 @@ INI=$E/gunicorn.ini
 L=$E/gunicorn.logging.conf
 
 if [[ -f $INI ]] ; then
-	grep -E '^logconfig' $INI || echo 'logconfig = "$L"' >> $INI
+	grep -E '^logconfig' $INI || echo "logconfig = '$L'" >> $INI
 	[[ -f $L ]] || cp /gunicorn.logging.conf $L
 fi
 
