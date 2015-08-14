@@ -1,5 +1,7 @@
 # sdi-centos7-gunicorn
 
+(Documentation how to integrate the SDI (Sumpfgottheit's Docker Images)[https://github.com/sumpfgottheit/sdi-centos7/wiki]
+
 This images includes the gunicorn wsgi server. Gunicorn is the process, that is started by the container and DOES NOT use supervisord or anything alike.
 
 No virtualenvs are used, as the service the gunicorn application is the sole purpuse of the container and therefore it is not necessary.

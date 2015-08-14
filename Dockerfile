@@ -1,8 +1,11 @@
 FROM sumpfgottheit/centos7
 MAINTAINER Florian Sachs "florian.sachs@gmx.at"
 
-RUN yum -y install python-pip gcc python-devel
-RUN pip install gunicorn logstash_formatter
+# libffi-devel openssl-devel und pyopenssl ndg-httpsclient pyasn1
+# are necessary to remove urllib3's inscure platform warning
+# see: https://urllib3.readthedocs.org/en/latest/security.html#insecureplatformwarning
+RUN yum -y install python-pip gcc python-devel libffi-devel openssl-devel
+RUN pip install gunicorn logstash_formatter pyopenssl ndg-httpsclient pyasn1
 RUN yum clean all
 
 RUN mkdir /pub 
