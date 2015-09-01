@@ -18,3 +18,4 @@ ADD pip-install-requirements.sh /docker-entrypoint.d/pip-install-requirements.sh
 EXPOSE 5000
 
 CMD /usr/bin/gunicorn --config /docker-entrypoint-ext.d/gunicorn.ini $(</docker-entrypoint-ext.d/gunicorn.app)
+
