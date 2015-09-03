@@ -8,10 +8,16 @@ No virtualenvs are used, as the service the gunicorn application is the sole pur
 
 # How to use this image
 
-* Create a `$projectdir/volumes/docker-entrypoint-ext.d/gunicorn.ini` for your app.
-* Create a `$projectdir/volumes/docker-entrypoint-ext.d/gunicorn.app` which contains the `APP_MODULE`, eg `app:app`. 
+* Define an environmentvariable `GUNICORN_INI_FILE` which points to gunicorn.ini file. You can also put the file to
+  `/docker-entrypoint-ext.d/gunicorn.ini`. If the environmentvariable is set and points to a file, this file has precendce 
+  before the `/docker-entrypoint-ext.d/gunicorn.ini`.
+* Define an environmentvariable `GUNICORN_APP_MODULE` which points to the a file, which contains the `APP_MODULE`, 
+  eg `app:app`. Again, the `/docker-entrypoint-ext.d/gunicorn.app` file can be used. 
 * Define an Environmentvariable `PIP_REQUIREMENTS_FILE` which points to your requirements-file
 * Place your app within a volume - use `/pub` if you don't have a better idea.
+
+The initialization Scripts write the files `/docker-entrypoint-ext.d/working.gunicorn.ini` and 
+`/docker-entrypoint-ext.d/working.gunicorn.app`. These are the files that are then used by gunicorn. 
 
 Look at the **example** section for how to do it.
 
@@ -90,7 +96,8 @@ wsgiref==0.1.2
 
 ## gunicorn.ini
 
-Save this file as `$projectdir/gunicorn/volumes/docker-entrypoint-ext.d/gunicorn.ini`
+Save this file as `$projectdir/gunicorn/volumes/docker-entrypoint-ext.d/gunicorn.ini` or point the environmentvariable
+`$GUNICORN_INI_FILE` to it.
 
 ```
 import multiprocessing
@@ -103,7 +110,8 @@ chdir = "/pub"
 
 ## gunicorn.app
 
-Save this file as `$projectdir/gunicorn/volumes/docker-entrypoint-ext.d/gunicorn.app`
+Save this file as `$projectdir/gunicorn/volumes/docker-entrypoint-ext.d/gunicorn.app` or point the environmentvariable 
+`$GUNICORN_APP_FILE` to it.
 
 ```
 app.app

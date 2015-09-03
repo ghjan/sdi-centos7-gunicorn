@@ -13,9 +13,10 @@ RUN mkdir /pub
 ADD logstash.conf /etc/logstash.conf
 ADD gunicorn.logging.conf /gunicorn.logging.conf
 ADD inject-logging-into-gunicorn.sh /docker-entrypoint.d/inject-logging-into-gunicorn.sh
+ADD create_working_gunicorn_config.sh /docker-entrypoint.d/create_working_gunicorn_config.sh
 ADD pip-install-requirements.sh /docker-entrypoint.d/pip-install-requirements.sh
 
 EXPOSE 5000
 
-CMD /usr/bin/gunicorn --config /docker-entrypoint-ext.d/gunicorn.ini $(</docker-entrypoint-ext.d/gunicorn.app)
+CMD /usr/bin/gunicorn --config /docker-entrypoint-ext.d/working.gunicorn.ini $(</docker-entrypoint-ext.d/working.gunicorn.app)
 
