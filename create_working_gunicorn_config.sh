@@ -5,7 +5,7 @@ WORKING_GUNICORN_INI=$EXT/working.gunicorn.ini
 WORKING_GUNICORN_APP=$EXT/working.gunicorn.app
 
 [[ -f $WORKING_GUNICORN_INI ]] && rm $WORKING_GUNICORN_INI
-if [[ -z $GUNICORN_INI_FILE ]] ; then
+if [[ -n $GUNICORN_INI_FILE ]] ; then
     [[ -f $GUNICORN_INI_FILE ]] && cp $GUNICORN_INI_FILE $WORKING_GUNICORN_INI
 fi
 if [[ ! -f $WORKING_GUNICORN_INI ]] ; then
@@ -13,7 +13,7 @@ if [[ ! -f $WORKING_GUNICORN_INI ]] ; then
 fi
 
 [[ -f $WORKING_GUNICORN_APP ]] && rm $WORKING_GUNICORN_APP
-if [[ -z $GUNICORN_APP_MODULE ]] ; then
+if [[ -n $GUNICORN_APP_MODULE ]] ; then
     [[ -f $GUNICORN_APP_MODULE ]] && cp $GUNICORN_APP_MODULE $WORKING_GUNICORN_APP
 fi
 if [[ ! -f $WORKING_GUNICORN_APP ]] ; then
